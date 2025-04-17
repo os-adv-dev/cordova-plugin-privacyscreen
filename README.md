@@ -25,6 +25,7 @@ It exposes a global `privacyScreen` object with two methods:
 ### privacyScreen.enable(blur, [success], [error])
 - `blur` (boolean): on iOS, `true` shows a blur overlay when the app resigns active; `false` shows the native splashscreen.  
   On Android, this parameter is ignored.
+- `allowScreenshot` (boolean): on Android, if true, allows screenshots; false blocks them.
 - `success` (Function, optional): called on success.  
 - `error` (Function, optional): called on error.
 
