@@ -6,12 +6,19 @@ var exec = require('cordova/exec');
 var PrivacyScreen = {
   /**
    * Enable privacy screen functionality.
-   * @param {boolean} blur If true, apply blur effect; otherwise, block screenshot without blur.
+   * @param {boolean} blur If true, apply blur effect (iOS only); false hides view.
+   * @param {boolean} allowScreenshot If true, allow screenshots (Android only); false blocks them.
    * @param {function} [success] Optional success callback.
    * @param {function} [error] Optional error callback.
    */
-  enable: function(blur, success, error) {
-    return exec(success || function() {}, error || function() {}, 'PrivacyScreen', 'enable', [!!blur]);
+  enable: function(blur, allowScreenshot, success, error) {
+    return exec(
+      success || function() {},
+      error   || function() {},
+      'PrivacyScreen',
+      'enable',
+      [ !!blur, !!allowScreenshot ]
+    );
   },
 
   /**

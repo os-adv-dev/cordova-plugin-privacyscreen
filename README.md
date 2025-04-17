@@ -11,7 +11,6 @@ cordova plugin add cordova-plugin-privacyscreen
 
 Or via npm:
 ```bash
-npm install cordova-plugin-privacyscreen --save
 cordova plugin add cordova-plugin-privacyscreen
 ```
 
@@ -20,11 +19,12 @@ cordova plugin add cordova-plugin-privacyscreen
 - Android (>= API 16)
 
 ## API
-This plugin exposes a global `privacyScreen` object with two methods:
+This plugin protects the contents of your app when the user navigates to the app switcher.
+It exposes a global `privacyScreen` object with two methods:
 
 ### privacyScreen.enable(blur, [success], [error])
-- `blur` (boolean): on iOS, `true` shows a blur overlay when the app resigns active; `false` hides the view entirely.  
-  On Android, this parameter is ignored—`enable` always applies FLAG_SECURE to block screenshots.
+- `blur` (boolean): on iOS, `true` shows a blur overlay when the app resigns active; `false` shows the native splashscreen.  
+  On Android, this parameter is ignored.
 - `success` (Function, optional): called on success.  
 - `error` (Function, optional): called on error.
 
@@ -37,11 +37,11 @@ privacyScreen.enable(true);
 privacyScreen.enable(false);
 
 // Android: always blocks screenshots, blur param is ignored
-privacyScreen.enable(true);  // still blocks screenshots
+privacyScreen.enable(); 
 ```
 
 ### privacyScreen.disable([success], [error])
-Disables the privacy screen, removes blur overlays on iOS and clears FLAG_SECURE on Android to allow screenshots.
+Disables the privacy screen
 
 ```js
 privacyScreen.disable(

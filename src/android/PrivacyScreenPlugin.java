@@ -1,7 +1,7 @@
 /**
  * PrivacyScreenPlugin.java Cordova Plugin Implementation
- * Created by OutSystems Experts on 18/07/14.
- * Copyright (c) 2014 OutSystems Experts. All rights reserved.
+ * Created by OutSystems Experts - April 2025.
+ * Copyright (c) 2025 OutSystems Experts. All rights reserved.
  * MIT Licensed
  */
 package com.outsystems.experts.privacyscreen;
@@ -30,11 +30,13 @@ public class PrivacyScreenPlugin extends CordovaPlugin {
     super.initialize(cordova, webView);
     // initial state: plugin disabled until enable() is called
   }
-  
+
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     if ("enable".equals(action)) {
-      enable();
+      // args: [ blurIgnored, allowScreenshot ]
+      boolean allowScreenshot = args.optBoolean(1, false);
+      enable(allowScreenshot);
       callbackContext.success();
       return true;
     } else if ("disable".equals(action)) {
@@ -45,14 +47,20 @@ public class PrivacyScreenPlugin extends CordovaPlugin {
     return false;
   }
 
-  private void enable() {
+  /**
+   * Enable privacy screen.
+   * @param allowScreenshot flag to prevent or allow the user to take screenshots
+   */
+  private void enable(final boolean allowScreenshot) {
     final Activity activity = this.cordova.getActivity();
     activity.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        // block screenshots and recent previews
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
           activity.setRecentsScreenshotEnabled(false);
+          if (!allowScreenshot){
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+          }
         } else {
           activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
@@ -68,9 +76,8 @@ public class PrivacyScreenPlugin extends CordovaPlugin {
         // allow screenshots and recent previews
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
           activity.setRecentsScreenshotEnabled(true);
-        } else {
-          activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
+        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
       }
     });
   }
