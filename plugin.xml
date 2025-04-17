@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="cordova-plugin-privacyscreen" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>PrivacyScreen</name>
+    <description>Cordova Plugin to enable privacy screen on app background</description>
+    <license>MIT</license>
+    <keywords>cordova,privacy,screen,blur</keywords>
+    <js-module src="www/privacyscreen.js" name="PrivacyScreen">
+        <clobbers target="privacyScreen" />
+    </js-module>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="PrivacyScreen">
+                <param name="ios-package" value="PrivacyScreenPlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/PrivacyScreenPlugin.h" />
+        <source-file src="src/ios/PrivacyScreenPlugin.m" />
+    </platform>
+
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="PrivacyScreen">
+                <param name="android-package" value="com.outsystems.experts.privacyscreen.PrivacyScreenPlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/android/PrivacyScreenPlugin.java" target-dir="src/com/outsystems/experts/privacyscreen" />
+    </platform>
+</plugin>
